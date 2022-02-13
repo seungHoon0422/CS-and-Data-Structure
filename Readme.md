@@ -42,6 +42,41 @@
 
 <br/>
 
+**순열 구현**
+
+```java
+// 1. 반복문으로 순열 구현 
+{1,2,3}을 포함하는 모든 순열 생성;
+for(int i=1; i<=3; i++){
+    if(int j=1; i-j<=3; j++){
+        if(i!=j){
+            for(int k=1; k<=3; k++){
+                if(k!=i && k!=j){
+                    System.out.println(i,j,k);
+                }
+            }
+        }
+    }
+}
+// 2. 재귀로 순열 구현
+numbers[] :순열 저장 배열
+isSelected[] : 인덱스에 해당하는 숫자가 사용중인지 저장하는 배열
+void perm(cnt){
+    if(cnt == 3)
+        순열 생성 완료;
+   	else{
+        for(int i=1; i<=3; i++)
+            if (isSeleced[i] == true)
+                continue;
+        	number[cnt] = i;
+        	isSelected[i] = true;
+        	perm(cnt+1);
+        	iseSelected[i] = false;
+    }
+}
+
+```
+
 
 
 **조합(Combination)**
@@ -49,6 +84,42 @@
 > 일반적으로 서로다른 N개의 원소 중에서 R개를 **순서없이** 뽑는 가지수를 의미하고, 알고리즘 분석 기법 중 완전탐색 부분에 해당한다. 서로다른 N명의 후보 중에서 R명을 뽑는 경우로 
 
 <br/>
+
+**조합 구현**
+
+```java
+static int N, R;
+static int[] input; // 전체 input
+static int[] numbers; // 선택된 조합 배열
+
+// 일반적인 조합 nCr
+public static void combination1(int cnt, int start) {
+    // combination1(0,0);
+    if(cnt == R) {
+        System.out.println(Arrays.toString(numbers));
+        return;
+    }
+    for(int i=start; i<N; i++) {
+        numbers[cnt] = input[i];
+        combination(cnt+1, i+1); // 자기 다음 카운트로 재귀
+    }
+}
+
+// 중복조합 nHr
+public static void combination2(int cnt, int start) {
+    // combination2(0,0);
+    if(cnt == R) {
+        System.out.println(Arrays.toString(numbers));
+        return;
+    }
+    for(int i=start; i<N; i++) {
+        numbers[cnt] = input[i];
+        combination(cnt+1, i); // 자기 자신을 포함해서 재귀
+    }
+}
+```
+
+
 
 
 
@@ -61,6 +132,52 @@
 > ex) N개의 원소 중 가방에 몇가지 원소를 가방에 집어넣을 때 가방에 들어갈 수 있는 종류의 집합
 
 <br/>
+
+**부분집합 구현**
+
+- 
+
+```java
+static int N;
+static boolean[] isSelected; // 부분집합에 포함 여부를 저장한 배열
+static int[] input; // 숫자 배열
+
+public static void generateSubset(int cnt) { 
+    // 부분집합에 고려해야하는 원소, 직전까지 고려한 원소수
+    if(cnt == N) { // 부분집합 완성 시 작동
+        for(int i=0; i<N; i++) {
+            System.out.print((isSelected[i]?input[i]:"X")+" ");
+        }
+        System.out.println();
+        return;
+    }
+    isSelected[cnt] = true;
+    generateSubset(cnt+1);  // 해당 원소가 포함된 경우
+    isSelected[cnt] = false; 
+    generateSubset(cnt+1); // 해당 원소가 포함되지 않은 경우
+}
+
+	/** i:단계, sumT : 맛의 현재 단계까지의 합, sumK : 칼로리의 현재 단계까지의 합
+	  현재까지 계산한 결과를 매번 가지고 다니자 * */
+public static void dfs(int i, int sumT, int sumK ) {
+    // basis part 선택한 재료들의 맛의 총합, 칼로리의 총합을 구해서,
+    //칼로리 제한범위 이내에서 최대 맛을 찾기
+    if(i == N) {	
+        if(sumK <= L && maxT < sumT) { 
+            maxT = sumT;
+        }
+        return;
+    } else if(sumK <= L) { //--1--
+        return;
+    }
+    // 선택함
+    dfs(i+1, sumT+v[i][0], sumK+v[i][1]);
+    // 선택안함
+    dfs(i+1, sumT, sumK);
+}
+```
+
+
 
 <br/>
 
