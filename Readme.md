@@ -189,7 +189,7 @@ public static void dfs(int i, int sumT, int sumK ) {
 
 
 
-### :zap:stack
+### :zap:Stack
 
 ---
 
